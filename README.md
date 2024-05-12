@@ -28,8 +28,11 @@ The installer does the following:
 * Replaces `ifconfig` calls with `ip addr` calls for
   non-Termux users
 * Replaces `wlan0` with your chosen
-  [Predictable Network Interface Name](1)
+  [Predictable Network Interface Name](https://wiki.debian.org/NetworkInterfaceNames#THE_.22PREDICTABLE_NAMES.22_SCHEME)
 * Ensures that permissions are set correctly for
   non-Termux users
 
-[1]: https://wiki.debian.org/NetworkInterfaceNames#THE_.22PREDICTABLE_NAMES.22_SCHEME
+## Attribution
+
+* [rkj-repos zsh theme](https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/rkj-repos.zsh-theme) (MIT)
+* [heapbytes zsh theme](https://github.com/heapbytes/heapbytes-zsh) (MIT)
