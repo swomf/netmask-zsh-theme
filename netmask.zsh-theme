@@ -33,7 +33,7 @@ get_venv_info_breeze() {
 # `ifconfig` depends on net-tools. If needed, change to `ip a` and `getline; nextline`.
 # `awk` is used instead of a direct `ip a` or `ifconfig wlan0` for rootless Termux users.
 get_ip_address() { # awk: look for wlan0, get line below it, ensure field 1 ends with inet
-  echo $(ifconfig 2>/dev/null | awk '/wlan0/ {getline; getline; if ($1 ~ "inet$") print $2}')
+  echo $(ifconfig 2>/dev/null | awk '/wlan0/ {getline; if ($1 ~ "inet$") print $2}')
 }
 
 get_ip_address_alternate() { # add a space before ip number
