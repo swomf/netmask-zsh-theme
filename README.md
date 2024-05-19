@@ -32,6 +32,15 @@ The installer does the following:
 * Ensures that permissions are set correctly for
   non-Termux users
 
+## Known bugs
+
+If the git emblems `✱ ✗ ➦ ✂ ✈` do not appear, add the following to your `~/.zshrc`,
+_before_ Oh My Zsh is sourced. See [ohmyzsh #12328](https://github.com/ohmyzsh/ohmyzsh/issues/12328#issuecomment-2043492331)
+
+```bash
+zstyle ':omz:alpha:lib:git' async-prompt no
+```
+
 ## Attribution
 
 * [rkj-repos zsh theme](https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/rkj-repos.zsh-theme) (MIT)
