@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-set -eo pipefail
+#set -eo pipefail
 
 # Message utils
 arrow_msg() {
