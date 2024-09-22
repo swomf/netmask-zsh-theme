@@ -7,6 +7,7 @@ A non-intrusive, Termux-first utilitarian theme for [oh-my-zsh](https://github.c
 * Full directory structure
 * Git branch and status
 * Virtual environment
+* Support for the new high-speed [async prompt](https://github.com/ohmyzsh/ohmyzsh/issues/12328#issuecomment-2043492331)
 
 ![Netmask theme preview](preview.png)
 
@@ -29,17 +30,9 @@ The installer does the following:
   non-Termux users
 * Replaces `wlan0` with your chosen
   [Predictable Network Interface Name](https://wiki.debian.org/NetworkInterfaceNames#THE_.22PREDICTABLE_NAMES.22_SCHEME)
+  (if needed)
 * Ensures that permissions are set correctly for
   non-Termux users
-
-## Known bugs
-
-If the git emblems `✱ ✗ ➦ ✂ ✈` do not appear, add the following to your `~/.zshrc`,
-_before_ Oh My Zsh is sourced. See [ohmyzsh #12328](https://github.com/ohmyzsh/ohmyzsh/issues/12328#issuecomment-2043492331)
-
-```bash
-zstyle ':omz:alpha:lib:git' async-prompt no
-```
 
 ## Attribution
 

@@ -1,19 +1,19 @@
-#!/bin/zsh
-
-#set -eo pipefail
+#!/bin/sh
 
 # Message utils
 arrow_msg() {
-  printf "$(tput setaf 2)$(tput bold) => $(tput sgr0)$(tput bold)${1}$(tput sgr0)\n"
+  printf "%s => %s%s%s%s\n" \
+    "$(tput setaf 2 bold)" "$(tput sgr0)" \
+    "$(tput bold)" "${1}" "$(tput sgr0)"
 }
 arrow_err() {
-  printf "$(tput setaf 1)$(tput bold) => $(tput sgr0)$(tput bold)${1}$(tput sgr0)\n"
+  printf "%s => %s%s%s%s\n" \
+    "$(tput setaf 1 bold)" "$(tput sgr0)" \
+    "$(tput bold)" "${1}" "$(tput sgr0)"
 }
 
-# Check if oh-my-zsh is installed (remove trailing slash)
-awk "/ZSH=/ {sub(/\/\$/, \"\"); print}" ~/.zshrc > temp-source.zshrc
-source temp-source.zshrc
-if [ ! -d "$ZSH" ]; then
+# Check if oh-my-zsh is installed
+if ! test -d "$ZSH"; then
   arrow_err "Could not find oh-my-zsh. Quitting"
   exit 1
 fi
@@ -58,7 +58,8 @@ if [ -z "$using_termux" ]; then
     ip a | awk '{if ($0 ~ /[a-zA-Z0-9]+: /) printf "\n"$2" "; else if ($0 ~ /inet /) printf $2}' && printf '\n'
     wifi_example=$(ip a | awk '/[a-zA-Z0-9]+: / && !/lo:/ {print substr($2, 1, length($2)-1); exit}')
   fi
-  arrow_msg "From the list, type the network interface name\n    that you want to display. e.g. ${wifi_example}"
+  arrow_msg "From the list, type the network interface name
+    that you want to display. e.g. ${wifi_example}"
   read -r network_interface
 fi
 
@@ -68,10 +69,25 @@ sed -i "s#/wlan0/#/${network_interface}/#g" temp-netmask.zsh-theme
 
 # get sudo permission if $ZSH is within the /usr/share directory
 arrow_msg "Installing to ${ZSH}/themes/netmask.zsh-theme"
-if [[ "$(dirname "$ZSH")" == '/usr/share' ]]; then
+if test "$(dirname "$ZSH")" = '/usr/share'; then
   sudo -v
-  sudo install -Dm644 temp-netmask.zsh-theme $ZSH/themes/netmask.zsh-theme
+  sudo install -Dm644 temp-netmask.zsh-theme "$ZSH/themes/netmask.zsh-theme"
 else
-  install -Dm644 temp-netmask.zsh-theme $ZSH/themes/netmask.zsh-theme
+  install -Dm644 temp-netmask.zsh-theme "$ZSH/themes/netmask.zsh-theme"
 fi
 arrow_msg "Installed."
+
+printf "\n"
+
+has_zstyle="$(grep "^zstyle ':omz:alpha:lib:git' async-prompt no" ~/.zshrc 2>/dev/null)"
+if test -n "$has_zstyle"; then
+  arrow_msg \
+  "Post-install: Poor zstyle detected. Please remove
+        zstyle ':omz:alpha:lib:git' async-prompt no
+    from ~/.zshrc; this will increase prompt load speed."
+else
+  arrow_msg \
+"Post-install: If you have async-prompt disabled, please remove 
+        zstyle ':omz:alpha:lib:git' async-prompt no
+    from your ~/.zshrc. This will increase prompt load speed."
+fi
