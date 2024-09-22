@@ -1,0 +1,9 @@
+# git init
+# git branch -m branch1
+echo hi > file1 && touch file2
+git add .
+git commit -m "add file1, file2" &> /dev/null
+echo edit > file2 && mv file1 file3 && touch file4
+git checkout -b branch2 &> /dev/null && git add .
+git commit -m "✧/ᐠ-ꞈ-ᐟ\\" &> /dev/null && echo -e "a\nb" > file2 && git commit -am "/ᐠ_ ꞈ _ᐟ\\" &> /dev/null && git checkout branch1 &> /dev/null && cat /usr/bin/zsh > file2 && git commit -am "Merging" && git merge branch2
+rm -rf * .* && py -m venv env && source env/bin/activate

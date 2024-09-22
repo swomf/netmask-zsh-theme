@@ -34,7 +34,9 @@ The installer does the following:
 * Ensures that permissions are set correctly for
   non-Termux users
 
-## Attribution
+## Inspiration
 
-* [rkj-repos zsh theme](https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/rkj-repos.zsh-theme) (MIT)
-* [heapbytes zsh theme](https://github.com/heapbytes/heapbytes-zsh) (MIT)
+* [rkj-repos zsh theme](https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/rkj-repos.zsh-theme) (MIT): some icon choices
+* [heapbytes zsh theme](https://github.com/heapbytes/heapbytes-zsh) (MIT): main inspiration
+
+No code was reused.
