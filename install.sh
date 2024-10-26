@@ -22,6 +22,7 @@ fi
 
 # Prepare a temp file for editing
 arrow_msg "Preparing temp file"
+cd "$(dirname "$0")"
 cp netmask.zsh-theme temp-netmask.zsh-theme
 
 # Switch to `ip addr` if not using Termux
@@ -70,7 +71,11 @@ sed -i "s#/wlan0/#/${network_interface}/#g" temp-netmask.zsh-theme
 # get sudo permission if $ZSH is within the /usr/share directory
 arrow_msg "Installing to ${ZSH}/themes/netmask.zsh-theme"
 if test "$(dirname "$ZSH")" = '/usr/share'; then
+  set -e
+  trap "arrow_err 'Failed to install'; exit 1" EXIT
   sudo -v
+  set +e
+  trap - EXIT
   sudo install -Dm644 temp-netmask.zsh-theme "$ZSH/themes/netmask.zsh-theme"
 else
   install -Dm644 temp-netmask.zsh-theme "$ZSH/themes/netmask.zsh-theme"
