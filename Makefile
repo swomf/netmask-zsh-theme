@@ -16,7 +16,9 @@ help:
 	@echo "  clean     - remove compiled targets"
 	@echo "  distclean - clean, also remove 'make config' output"
 	@echo "  install   - install netmask.zsh-theme and ip binaries to"
-	@echo "              ZSH/custom"
+	@echo "              $$ZSH/custom"
+	@echo "  uninstall - remove netmask.zsh-theme and ip binaries from"
+	@echo "              $$ZSH/custom"
 	@echo ""
 	@echo "Recommended usage: make config && make all && make install"
 
@@ -34,6 +36,10 @@ endif
 	install -Dm644 $(THEME) $(ZSH)/custom/themes/netmask.zsh-theme
 	install -Dm755 $(IP_PROG) $(ZSH)/custom/bin/netmask/ip
 
+uninstall:
+	rm -f $(ZSH)/custom/themes/netmask.zsh-theme
+	rm -f $(ZSH)/custom/bin/netmask/ip
+
 config: $(CONFIG_PROG) $(IP_PROG)
 	./$(CONFIG_PROG)
 
@@ -46,4 +52,4 @@ $(THEME): $(THEME).tmpl $(wildcard $(CONFIG_DIR)/*.sed)
 	cp -f $(THEME).tmpl $(THEME)
 	$(foreach file, $(wildcard $(CONFIG_DIR)/*.sed), sed -f $(file) -i $(THEME);)
 
-.PHONY: all config clean distclean help install
+.PHONY: all config clean distclean help install uninstall
