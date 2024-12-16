@@ -9,6 +9,8 @@
 # $ `git config --add oh-my-zsh.hide-dirty 1` 
 # within the repo. This disables the git status in the prompt.
 
+
+
 # ============================
 # = ENV INDICATOR            =
 # ============================
@@ -30,10 +32,9 @@ get_venv_info_breeze() {
 # = IP ADDRESS               =
 # ============================
 
-# `ifconfig` depends on net-tools. If needed, change to `ip a` and `getline; nextline`.
-# `awk` is used instead of a direct `ip a` or `ifconfig wlan0` for rootless Termux users.
+# Custom C implementation used for cross-compatible inet detection
 _get_ip_addr_async() {
-  ifconfig 2>/dev/null | awk '/wlan0/ {getline; if ($1 ~ "inet$") print $2}'
+  $ZSH/custom/bin/netmask/ip wl 2> /dev/null
 }
 _omz_register_handler _get_ip_addr_async
 
@@ -80,3 +81,5 @@ PROMPT='\
 # Alternative shell prompt when a command continues, e.g. when using CAT << EOF
 # >
 PS2=' %{$fg_bold[blue]%}>%{$reset_color%} '
+
+# vim: set syntax=bash:
