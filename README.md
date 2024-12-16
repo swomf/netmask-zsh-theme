@@ -3,7 +3,8 @@
 A non-intrusive, Termux-first utilitarian theme for [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh).
 
 * IPv4 address
-  * compatible with both Termux-friendly `ifconfig` and normal devices' `ip addr`
+  * Cross-platform: uses own implementation via C stdlib
+  to avoid `ifconfig`/`ip addr`/Termux permission inconsistencies
 * Full directory structure
 * Git branch and status
 * Virtual environment
@@ -12,27 +13,40 @@ A non-intrusive, Termux-first utilitarian theme for [oh-my-zsh](https://github.c
 ![Netmask theme preview](preview.png)
 
 Tested on rootless Android 13+ Termux and various
-desktop Linux distributions.
+desktop glibc Linux distributions.
 
 ## Installation
 
-Although Termux users can simply manually copy `netmask.zsh-theme` to the `$ZSH/themes` directory, it is
-recommended to run the interactive installer.
-
 ```bash
-$ git clone https://github.com/swomf/netmask-zsh-theme
-$ cd netmask-zsh-theme
-$ ./install.sh
+git clone https://github.com/swomf/netmask-zsh-theme
+cd netmask-zsh-theme
+make config # Recommended. May not be necessary.
+make && make install
+# if necessary, use `sudo -E make install` instead.
 ```
 
-The installer does the following:
-* Replaces `ifconfig` calls with `ip addr` calls for
-  non-Termux users
-* Replaces `wlan0` with your chosen
-  [Predictable Network Interface Name](https://wiki.debian.org/NetworkInterfaceNames#THE_.22PREDICTABLE_NAMES.22_SCHEME)
-  (if needed)
-* Ensures that permissions are set correctly for
-  non-Termux users
+### Why `make config?`
+
+By default, the theme will print the first network interface that
+starts with `wl` (e.g. `wlan0`, `wlp3s0`). However, some may prefer
+to explicitly define their wanted interface, or change it to `tun0`
+or something else.
+
+Run `make help` for more information.
+
+
+## Roadmap
+
+* [ ] Improve installation process when using `sudo`
+  * `sudo -E` is sometimes needed because the presence of
+  ohmyzsh is detected in the project Makefile via the `$ZSH` env var;
+  this may not be defined in `/root/.zshrc` for system-wide ohmyzsh
+  installations.
+* [ ] Test on non-glibc systems
+  * [ ] macOS (Apple C Library)
+  * [ ] \*BSD (libc)
+  * [ ] Alpine Linux/Void Linux (musl)
+  * [ ] MinGW-w64 (msvcrt)
 
 ## Inspiration
 
