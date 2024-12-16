@@ -16,14 +16,14 @@ int main_loop(char lines[MAX_LINES][BUFFER_SIZE], unsigned int total_lines);
 int create_sed(char **argv, char *line);
 
 void handle_sigint(int sig) {
-    endwin(); // Restore terminal settings
-    printf("Caught signal %d. Exiting gracefully...", sig);
-    exit(0); // Exit the program
+  endwin(); // Restore terminal settings
+  printf("Caught signal %d. Exiting gracefully...", sig);
+  exit(0); // Exit the program
 }
 
 int main(int argc, char **argv) {
   signal(SIGINT, handle_sigint);
-  
+
   if (argc != 1) {
     fprintf(stderr, "Only provide the executable path.\n");
     return 1;
@@ -102,10 +102,10 @@ int main_loop(char lines[MAX_LINES][BUFFER_SIZE], unsigned int total_lines) {
     for (int i = 0; i < total_lines; i++) {
       if (i == highlight) {
         attron(A_REVERSE);
-        mvaddstr(i+3, 2, lines[i]);
+        mvaddstr(i + 3, 2, lines[i]);
         attroff(A_REVERSE);
       } else {
-        mvaddstr(i+3, 2, lines[i]);
+        mvaddstr(i + 3, 2, lines[i]);
       }
       addstr("\n");
     }
