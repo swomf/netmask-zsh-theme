@@ -1,6 +1,8 @@
 # Generated/compiled files
 netmask.zsh-theme
 ip
+configure
+*.sed
 
 ### TEMPLATE ###
 
