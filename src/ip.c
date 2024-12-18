@@ -25,8 +25,8 @@ int main(int argc, char *argv[]) {
   struct ifaddrs *ifaddr;
   int family, s;
   char host[NI_MAXHOST];
-  u_int8_t netmask = 0;
-  u_int32_t netmask_temp;
+  uint8_t netmask = 0;
+  uint32_t netmask_temp;
 
   if (getifaddrs(&ifaddr) == -1) {
     perror("getifaddrs");
@@ -74,11 +74,11 @@ int main(int argc, char *argv[]) {
     }
 
     if (argc < 2) {
-      printf("%-8s: %s/%hu\n", ifa->ifa_name, host, (u_int16_t)netmask);
+      printf("%-8s: %s/%hu\n", ifa->ifa_name, host, (uint16_t)netmask);
     } else {
       /* compare interface name to args */
       if (strncmp(argv[1], ifa->ifa_name, strlen(argv[1])) == 0) {
-        printf("%s/%hu\n", host, (u_int16_t)netmask);
+        printf("%s/%hu\n", host, (uint16_t)netmask);
         break;
       }
     }
