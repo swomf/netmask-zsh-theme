@@ -12,7 +12,7 @@ help:
 	@echo "Targets: "
 	@echo "  all       - all targets"
 	@echo "  config    - configure netmask.zsh-theme for user's specific IP"
-	@echo "                (default: find first ip that starts with `wl`)"
+	@echo "                (default: find first ip that starts with \`wl\`)"
 	@echo "  clean     - remove compiled targets"
 	@echo "  distclean - clean, also remove 'make config' output"
 	@echo "  install   - install netmask.zsh-theme and ip binaries to"
