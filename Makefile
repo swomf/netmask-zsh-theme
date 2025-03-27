@@ -48,8 +48,8 @@ $(CONFIG_PROG): $(CONFIG_PROG).c
 
 $(IP_PROG): $(IP_PROG).c
 
-$(THEME): $(THEME).tmpl $(wildcard $(CONFIG_DIR)/*.sed)
-	cp -f $(THEME).tmpl $(THEME)
+$(THEME): $(THEME).in $(wildcard $(CONFIG_DIR)/*.sed)
+	cp -f $(THEME).in $(THEME)
 	$(foreach file, $(wildcard $(CONFIG_DIR)/*.sed), sed -f $(file) -i $(THEME);)
 
 .PHONY: all config clean distclean help install uninstall
