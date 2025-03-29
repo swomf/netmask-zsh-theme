@@ -23,10 +23,10 @@ help:
 	@echo "Recommended usage: make config && make all && make install"
 
 clean:
-	rm -f $(IP_PROG) $(THEME) $(CONFIG_PROG)
+	$(RM) $(IP_PROG) $(THEME) $(CONFIG_PROG)
 
 distclean: clean
-	rm -f $(wildcard $(CONFIG_DIR)/*.sed)
+	$(RM) $(wildcard $(CONFIG_DIR)/*.sed)
 
 install: all
 ifndef ZSH
@@ -37,14 +37,14 @@ endif
 	install -Dm755 $(IP_PROG) $(ZSH)/custom/bin/netmask/ip
 
 uninstall:
-	rm -f $(ZSH)/custom/themes/netmask.zsh-theme
-	rm -f $(ZSH)/custom/bin/netmask/ip
+	$(RM) $(ZSH)/custom/themes/netmask.zsh-theme
+	$(RM) $(ZSH)/custom/bin/netmask/ip
 
 config: $(CONFIG_PROG) $(IP_PROG)
 	./$(CONFIG_PROG)
 
 $(CONFIG_PROG): $(CONFIG_PROG).c
-	$(CC) $(CFLAGS) $(LDFLAGS) $$(pkg-config --libs ncurses menu) -o $@ $^
+$(CONFIG_PROG): LDFLAGS+=$(shell pkg-config --libs ncurses menu)
 
 $(IP_PROG): $(IP_PROG).c
 
