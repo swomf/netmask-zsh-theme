@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 
 int get_ip_choices(char **argv, char lines[MAX_LINES][BUFFER_SIZE],
                    unsigned int *total_lines) {
-  // Transform $repo/src/config/configure -> realpath of $repo/src/ip
+  // Transform $repo/src/config/nconfig -> realpath of $repo/src/ip
   // Dev note. realpath's assignment should be freed (see `man realpath.3`)
   char *path = realpath(argv[0], NULL);
   if (path == NULL) {

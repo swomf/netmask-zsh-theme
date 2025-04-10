@@ -20,12 +20,12 @@ desktop glibc Linux distributions.
 ```bash
 git clone https://github.com/swomf/netmask-zsh-theme
 cd netmask-zsh-theme
-make config # Recommended. May not be necessary.
+make nconfig # Recommended. May not be necessary.
 make && make install
 # if necessary, use `sudo -E make install` instead.
 ```
 
-### Why `make config?`
+### Why `make nconfig?`
 
 By default, the theme will print the first network interface that
 starts with `wl` (e.g. `wlan0`, `wlp3s0`). However, some may prefer

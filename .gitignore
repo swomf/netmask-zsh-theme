@@ -1,7 +1,7 @@
 # Generated/compiled files
 netmask.zsh-theme
 ip
-configure
+nconfig
 *.sed
 
 # lsp
