@@ -7,7 +7,7 @@
 
 // Technically NI_MAXHOST is 1025 (see <netdb.h>), so the maximum
 // buffer size should be approx. 1025+3+19. But nobody's _THAT_ crazy.
-#define BUFFER_SIZE 32
+#define BUFFER_SIZE 64
 #define MAX_LINES 10 /* arbitrary number */
 
 int get_ip_choices(char **argv, char lines[MAX_LINES][BUFFER_SIZE],
@@ -15,10 +15,11 @@ int get_ip_choices(char **argv, char lines[MAX_LINES][BUFFER_SIZE],
 int main_loop(char lines[MAX_LINES][BUFFER_SIZE], unsigned int total_lines);
 int create_sed(char **argv, char *line);
 
+// Restore terminal settings gracefully
 void handle_sigint(int sig) {
-  endwin(); // Restore terminal settings
+  endwin();
   printf("Caught signal %d. Exiting gracefully...", sig);
-  exit(0); // Exit the program
+  exit(0);
 }
 
 int main(int argc, char **argv) {
@@ -48,40 +49,40 @@ int main(int argc, char **argv) {
 
 int get_ip_choices(char **argv, char lines[MAX_LINES][BUFFER_SIZE],
                    unsigned int *total_lines) {
-  // Get real path of src/ip binary
+  // Transform $repo/src/config/configure -> realpath of $repo/src/ip
+  // Dev note. realpath's assignment should be freed (see `man realpath.3`)
   char *path = realpath(argv[0], NULL);
   if (path == NULL) {
     perror("Failed to get real path");
+    free(path);
     return 1;
   }
-
   for (int i = strlen(path) - 1, slashes_found = 0; i >= 0; i--) {
-    if (path[i] == '/') {
-      slashes_found++;
-      if (slashes_found == 2) {
-        strcpy(&path[i], "/ip");
-        break;
-      }
+    if (path[i] == '/' && ++slashes_found == 2) {
+      strcpy(&path[i], "/ip");
+      break;
     }
   }
 
-  // Read IP choices from binary stdout
+  /* Read IP choices from stdout of $repo/src/ip */
+  sprintf(lines[0], "%-8s: %s\n", "wl",
+          "Starts with 'wl' (best-effort default)");
+  (*total_lines)++;
   FILE *pipe = popen(path, "r");
   if (pipe == NULL) {
     perror("Failed to open pipe");
     free(path);
     return 1;
   }
-
   while (*total_lines < MAX_LINES &&
          fgets(lines[*total_lines], BUFFER_SIZE, pipe) != NULL) {
-    lines[*total_lines][strcspn(lines[*total_lines], "\n")] =
-        0; /* Remove newline */
+    /* Trick to remove newline if exists */
+    lines[*total_lines][strcspn(lines[*total_lines], "\n")] = 0;
     (*total_lines)++;
   }
 
   pclose(pipe);
-  free(path); // Free the path after use
+  free(path);
   return 0;
 }
 
@@ -162,6 +163,7 @@ int create_sed(char **argv, char *line) {
   fprintf(file, "s:ip wl:ip %s:g\n", interface);
 
   fclose(file);
-  free(path);
+  fprintf(stdout, "configure: Wrote \"s:ip wl:ip %s/g\" to %s.\n", interface,
+          path);
   return 0;
 }
