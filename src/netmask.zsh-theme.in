@@ -15,7 +15,7 @@
 # = ENV INDICATOR            =
 # ============================
 
-# Move env so it doesn't mess up positioning of the arrows
+# Move venv so it doesn't mess up positioning of the arrows
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 get_venv_info() {
   if test -d "$VIRTUAL_ENV"; then
@@ -26,6 +26,13 @@ get_venv_info_breeze() {
   if test -d "$VIRTUAL_ENV"; then
     echo "(%{$fg_bold[green]%}env%{$fg_bold[blue]%})—"
   fi
+}
+
+# Move conda env so it doesn't mess up positioning of the arrows
+export CONDA_CHANGEPS1=false
+function get_conda_prompt_info(){
+  [[ -n ${CONDA_DEFAULT_ENV} ]] || return
+  echo "(%{$fg_bold[cyan]%}${CONDA_DEFAULT_ENV}%{$fg_bold[blue]%})—"
 }
 
 # ============================
@@ -67,12 +74,12 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[blue]%}✈ "
 # colors: main -- ip only
 PROMPT='\
 %{$fg_bold[blue]%}╭─[%{$fg[cyan]%}$(get_ip_addr)%{$reset_color%}%{$fg_bold[blue]%}]%{$reset_color%} %{$fg[cyan]%}%~ %{$fg_bold[green]%}$(git_prompt_info)$(git_prompt_status)%{$reset_color%}
-%{$fg_bold[blue]%}╰─$(get_venv_info)>%{$reset_color%} '
+%{$fg_bold[blue]%}╰─$(get_venv_info)$(get_conda_prompt_info)>%{$reset_color%} '
 
 # colors: breeze -- ip only
 # PROMPT='\
 # %{$fg_bold[blue]%}╭─[%{$fg_bold[green]%}$(get_ip_addr)%{$reset_color%}%{$fg_bold[blue]%}]%{$reset_color%} %{$fg[blue]%}%~ %{$fg_bold[green]%}$(git_prompt_info)$(git_prompt_status)%{$reset_color%}
-# %{$fg_bold[blue]%}╰─$(get_venv_info)>%{$reset_color%} '
+# %{$fg_bold[blue]%}╰─$(get_venv_info)$(get_conda_prompt_info)>%{$reset_color%} '
 
 # ============================
 # = ZSH PS2                  =
